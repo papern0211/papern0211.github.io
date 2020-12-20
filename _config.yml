@@ -16,13 +16,13 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 
 # Site Settings
 locale                   : "en-US"
-title                    : "PAPERN's Blog v0.1(..ing)"
+title                    : "PAPERN's Blog"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "PAPERN"
 description              : "Engineer"
 url                      : "https://papern0211.github.io"
-baseurl                  : # the subpath of your site, e.g. "/blog"
+baseurl                  : ""# the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
@@ -279,6 +279,7 @@ defaults:
       comments: true
       share: true
       related: true
+      mathjax: true
 
   # _pages
   - scope:
