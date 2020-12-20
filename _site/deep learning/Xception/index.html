@@ -1,0 +1,515 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[논문 리뷰] Xception: Deep Learning with Depthwise Separable Convolutions - PAPERN’s Blog v0.1(..ing)</title>
+<meta name="description" content="Xception: Deep Learning with Depthwise Separable Convolutions">
+
+
+  <meta name="author" content="PAPERN">
+  
+  <meta property="article:author" content="PAPERN">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="PAPERN's Blog v0.1(..ing)">
+<meta property="og:title" content="[논문 리뷰] Xception: Deep Learning with Depthwise Separable Convolutions">
+<meta property="og:url" content="http://localhost:4000/deep%20learning/Xception/">
+
+
+  <meta property="og:description" content="Xception: Deep Learning with Depthwise Separable Convolutions">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-12-20T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2020-12-20T20:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/deep%20learning/Xception/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "PAPERN",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="PAPERN's Blog v0.1(..ing) Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          PAPERN's Blog v0.1(..ing)
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://papern0211.github.io/">Blog</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tag</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">PAPERN</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>A little knowledge is dangerous</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:papern0211@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://papern0211.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/papern0211" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[논문 리뷰] Xception: Deep Learning with Depthwise Separable Convolutions">
+    <meta itemprop="description" content="Xception: Deep Learning with Depthwise Separable Convolutions">
+    <meta itemprop="datePublished" content="2020-12-20T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-12-20T20:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">[논문 리뷰] Xception: Deep Learning with Depthwise Separable Convolutions
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h1 id="xception-2017"><a href="https://arxiv.org/pdf/1610.02357.pdf">Xception, 2017</a></h1>
+
+<p>본 논문은 Inception 모듈을 다른 관점에서 해석함으로써, 이후 Convolution layer 경량화에 많이 사용되는  <strong>Depthwise seperable convolution</strong> (Depthwise convolution + pointwise convolution)과의 연관성을 설명하고, 동일한 파라미터 크기를 모델로써 Inception V3보다 더 나은 성능을 도출하였다.</p>
+
+<p>아래 그림에서 보면, Inception module의 간단 버젼 [Fig. 1-(a)] 에서 3x3 convolution으로 통일시키고 및 Avg. Pool을 제거한 뒤 [Fig. 1-(b)], 1x1 convolution을 개념적으로 하나로 통일해서 생각하면 [Fig. 1-(c)], 이후에 적용되는 3x3 convolution는 output channel간의 겹치지 않고, 독립적으로 동작한다고 볼 수 있다. 만약 극단적으로 모든 채널에 대해 spatial correlation을 분리해서 본다면 [Fig. 1-(d)], 이는 결국 <strong>Depthwise separable convolution</strong> 와 거의 같은 형태를 띄게 된다.
+&lt;/br&gt;&lt;/br&gt;
+<img src="../assets/images/2020-12-20-Xception/inception.jpg" alt="Fig. 1. Inception 모듈의 변경 및 해석" />
+&lt;/br&gt;&lt;/br&gt;
+결국, 극단적으로 Inception 모듈을 구현 하였다고 볼 수 있어서 (extreme inception), 제안하는 모델 구조를 <strong>Xception</strong> 이라고 부르게 된다.</p>
+
+<p>Depthwise seperable convolution과는 두가지 관점에서 약간 차이가 있는데, 다음과 같다.</p>
+<ol>
+  <li>연산 순서</li>
+  <li>비선형 연산 존재 유무</li>
+</ol>
+
+<p>논문에서는 연산순서의 경우 크게 고민을 하지 않았는데, 그 이유는 우리가 모델을 구성할때, 여러 모듈을 겹겹히 쌓게 되고 자연히 1x1-&gt;3x3-&gt;1x1-&gt;3x3…의 순서가 나타나게 되서 큰 차이가 없다고 판단했다.</p>
+
+<p>하지만, 비선형 연산의 유무의 경우 두모듈에서  큰 차이점을 보여주게 되는데, 비선형을 제거할 수록, 다시 말해 ReLU연산을 제거 하면, 더 좋은 성능을 얻을 수 있게 되었다. 이는 Szegedy 가 주장과 상반된 결과 인데, 본 논문에서는 그 차이가 feature space의 깊이 (feature space의 채널 크기)에  인한 것으로 생각된다고 말한다 (Depthwise seperable convolution은 깊이가 1)
+&lt;/br&gt;&lt;/br&gt;
+<img src="../assets/images/2020-12-20-Xception/nonlinearity.jpg" alt="Fig. 2. 비선형 activation에 따른 성능" />
+&lt;/br&gt;&lt;/br&gt;</p>
+
+<p>기본적으로 Depthwise seperable layer을 겹겹히 쌓고, 더불어 residual connection을 추가하였으며, Entry flow/Middle flow/Exit flow 세가지 모듈을 이용해 아키텍쳐를 구성하였다. 성능은 당연히 비교 대상인 Inception V3 보다 잘 나왔는데, ImageNet 데이터 [Fig. 3] 결과와 더불어 JFT 데이터 결과에서 모두 나은 정확도를 보여줬다.
+&lt;/br&gt;&lt;/br&gt;
+<img src="../assets/images/2020-12-20-Xception/results.jpg" alt="Fig. 3. ImageNet 데이터에서 모델별 성능" />
+&lt;/br&gt;&lt;/br&gt;</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/" class="page__taxonomy-item" rel="tag"></a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#cnn" class="page__taxonomy-item" rel="tag">CNN</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/" class="page__taxonomy-item" rel="tag"></a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#deep-learning" class="page__taxonomy-item" rel="tag">Deep Learning</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-12-20">December 20, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%5B%EB%85%BC%EB%AC%B8+%EB%A6%AC%EB%B7%B0%5D+Xception%3A+Deep+Learning+with+Depthwise+Separable+Convolutions%20http%3A%2F%2Flocalhost%3A4000%2Fdeep%2520learning%2FXception%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fdeep%2520learning%2FXception%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fdeep%2520learning%2FXception%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+            
+      </div>
+    </div>
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="mailto:papern0211@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+        
+      
+        
+          <li><a href="https://papern0211.github.io" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i> Website</a></li>
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/papern0211" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 PAPERN. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/deep%20learning/Xception/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/deep%20learning/Xception"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://papern0211-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

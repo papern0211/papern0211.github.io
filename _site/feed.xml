@@ -1,9 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-19T00:05:00+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">PAPERNs Blog v0.1(..ing)</title><subtitle>Engineer</subtitle><author><name>PAPERN</name></author><entry><title type="html">github.io 블로그 시작하기</title><link href="http://localhost:4000/blog/first-post/" rel="alternate" type="text/html" title="github.io 블로그 시작하기" /><published>2020-10-07T00:00:00+09:00</published><updated>2020-10-07T22:54:00+09:00</updated><id>http://localhost:4000/blog/first-post</id><content type="html" xml:base="http://localhost:4000/blog/first-post/">&lt;p&gt;GitHub Blog 서비스인 github.io 블로그 시작하기로 했다.
-GitHub Blog 서비스의 이름은 Pages이다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-12-20T22:06:11+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">PAPERN’s Blog v0.1(..ing)</title><subtitle>Engineer</subtitle><author><name>PAPERN</name></author><entry><title type="html">[논문 리뷰] Xception: Deep Learning with Depthwise Separable Convolutions</title><link href="http://localhost:4000/deep%20learning/Xception/" rel="alternate" type="text/html" title="[논문 리뷰] Xception: Deep Learning with Depthwise Separable Convolutions" /><published>2020-12-20T00:00:00+09:00</published><updated>2020-12-20T20:00:00+09:00</updated><id>http://localhost:4000/deep%20learning/Xception</id><content type="html" xml:base="http://localhost:4000/deep%20learning/Xception/">&lt;h1 id=&quot;xception-2017&quot;&gt;&lt;a href=&quot;https://arxiv.org/pdf/1610.02357.pdf&quot;&gt;Xception, 2017&lt;/a&gt;&lt;/h1&gt;
 
-&lt;p&gt;Pages가 다른 블로그 플랫폼 보다 편한 것 같아서 마음에 든다.
-다른 사람들도 같이 많이 사용했으면 좋겠다는 생각이 든다.&lt;/p&gt;
+&lt;p&gt;본 논문은 Inception 모듈을 다른 관점에서 해석함으로써, 이후 Convolution layer 경량화에 많이 사용되는  &lt;strong&gt;Depthwise seperable convolution&lt;/strong&gt; (Depthwise convolution + pointwise convolution)과의 연관성을 설명하고, 동일한 파라미터 크기를 모델로써 Inception V3보다 더 나은 성능을 도출하였다.&lt;/p&gt;
 
-&lt;p&gt;YFM에서 정의한 제목을 이중 괄호 구문으로 본문에 추가할 수 있다.
-이 글의 제목은 github.io 블로그 시작하기이고
-마지막으로 수정된 시간은 2020-10-07 22:54:00 +0900이다.&lt;/p&gt;</content><author><name>PAPERN</name></author><category term="Blog" /><category term="Blog" /><summary type="html">GitHub Blog 서비스인 github.io 블로그 시작하기로 했다.</summary></entry></feed>
+&lt;p&gt;아래 그림에서 보면, Inception module의 간단 버젼 [Fig. 1-(a)] 에서 3x3 convolution으로 통일시키고 및 Avg. Pool을 제거한 뒤 [Fig. 1-(b)], 1x1 convolution을 개념적으로 하나로 통일해서 생각하면 [Fig. 1-(c)], 이후에 적용되는 3x3 convolution는 output channel간의 겹치지 않고, 독립적으로 동작한다고 볼 수 있다. 만약 극단적으로 모든 채널에 대해 spatial correlation을 분리해서 본다면 [Fig. 1-(d)], 이는 결국 &lt;strong&gt;Depthwise separable convolution&lt;/strong&gt; 와 거의 같은 형태를 띄게 된다.
+&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;
+&lt;img src=&quot;../assets/images/2020-12-20-Xception/inception.jpg&quot; alt=&quot;Fig. 1. Inception 모듈의 변경 및 해석&quot; /&gt;
+&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;
+결국, 극단적으로 Inception 모듈을 구현 하였다고 볼 수 있어서 (extreme inception), 제안하는 모델 구조를 &lt;strong&gt;Xception&lt;/strong&gt; 이라고 부르게 된다.&lt;/p&gt;
+
+&lt;p&gt;Depthwise seperable convolution과는 두가지 관점에서 약간 차이가 있는데, 다음과 같다.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;연산 순서&lt;/li&gt;
+  &lt;li&gt;비선형 연산 존재 유무&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;논문에서는 연산순서의 경우 크게 고민을 하지 않았는데, 그 이유는 우리가 모델을 구성할때, 여러 모듈을 겹겹히 쌓게 되고 자연히 1x1-&amp;gt;3x3-&amp;gt;1x1-&amp;gt;3x3…의 순서가 나타나게 되서 큰 차이가 없다고 판단했다.&lt;/p&gt;
+
+&lt;p&gt;하지만, 비선형 연산의 유무의 경우 두모듈에서  큰 차이점을 보여주게 되는데, 비선형을 제거할 수록, 다시 말해 ReLU연산을 제거 하면, 더 좋은 성능을 얻을 수 있게 되었다. 이는 Szegedy 가 주장과 상반된 결과 인데, 본 논문에서는 그 차이가 feature space의 깊이 (feature space의 채널 크기)에  인한 것으로 생각된다고 말한다 (Depthwise seperable convolution은 깊이가 1)
+&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;
+&lt;img src=&quot;../assets/images/2020-12-20-Xception/nonlinearity.jpg&quot; alt=&quot;Fig. 2. 비선형 activation에 따른 성능&quot; /&gt;
+&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;기본적으로 Depthwise seperable layer을 겹겹히 쌓고, 더불어 residual connection을 추가하였으며, Entry flow/Middle flow/Exit flow 세가지 모듈을 이용해 아키텍쳐를 구성하였다. 성능은 당연히 비교 대상인 Inception V3 보다 잘 나왔는데, ImageNet 데이터 [Fig. 3] 결과와 더불어 JFT 데이터 결과에서 모두 나은 정확도를 보여줬다.
+&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;
+&lt;img src=&quot;../assets/images/2020-12-20-Xception/results.jpg&quot; alt=&quot;Fig. 3. ImageNet 데이터에서 모델별 성능&quot; /&gt;
+&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;&lt;/p&gt;</content><author><name>PAPERN</name></author><category term="Deep Learning" /><category term="CNN, Vision" /><summary type="html">Xception: Deep Learning with Depthwise Separable Convolutions</summary></entry></feed>

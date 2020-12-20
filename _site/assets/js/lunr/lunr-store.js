@@ -1,7 +1,7 @@
 var store = [{
-        "title": "github.io 블로그 시작하기",
-        "excerpt":"GitHub Blog 서비스인 github.io 블로그 시작하기로 했다. GitHub Blog 서비스의 이름은 Pages이다. Pages가 다른 블로그 플랫폼 보다 편한 것 같아서 마음에 든다. 다른 사람들도 같이 많이 사용했으면 좋겠다는 생각이 든다. YFM에서 정의한 제목을 이중 괄호 구문으로 본문에 추가할 수 있다. 이 글의 제목은 github.io 블로그 시작하기이고 마지막으로 수정된 시간은 2020-10-07...","categories": ["Blog"],
-        "tags": ["Blog"],
-        "url": "http://localhost:4000/blog/first-post/",
+        "title": "[논문 리뷰] Xception: Deep Learning with Depthwise Separable Convolutions",
+        "excerpt":"Xception, 2017 본 논문은 Inception 모듈을 다른 관점에서 해석함으로써, 이후 Convolution layer 경량화에 많이 사용되는 Depthwise seperable convolution (Depthwise convolution + pointwise convolution)과의 연관성을 설명하고, 동일한 파라미터 크기를 모델로써 Inception V3보다 더 나은 성능을 도출하였다. 아래 그림에서 보면, Inception module의 간단 버젼 [Fig. 1-(a)] 에서 3x3 convolution으로 통일시키고 및 Avg....","categories": ["Deep Learning"],
+        "tags": ["CNN, Vision"],
+        "url": "http://localhost:4000/deep%20learning/Xception/",
         "teaser": null
       }]
