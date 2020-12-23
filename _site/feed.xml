@@ -1,27 +1,125 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-12-20T22:06:11+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">PAPERN’s Blog v0.1(..ing)</title><subtitle>Engineer</subtitle><author><name>PAPERN</name></author><entry><title type="html">[논문 리뷰] Xception: Deep Learning with Depthwise Separable Convolutions</title><link href="http://localhost:4000/deep%20learning/Xception/" rel="alternate" type="text/html" title="[논문 리뷰] Xception: Deep Learning with Depthwise Separable Convolutions" /><published>2020-12-20T00:00:00+09:00</published><updated>2020-12-20T20:00:00+09:00</updated><id>http://localhost:4000/deep%20learning/Xception</id><content type="html" xml:base="http://localhost:4000/deep%20learning/Xception/">&lt;h1 id=&quot;xception-2017&quot;&gt;&lt;a href=&quot;https://arxiv.org/pdf/1610.02357.pdf&quot;&gt;Xception, 2017&lt;/a&gt;&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-12-23T23:10:53+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">PAPERN’s Blog</title><subtitle>Engineer</subtitle><author><name>PAPERN</name></author><entry><title type="html">[논문 리뷰] MobileNetV2: Inverted Residuals and Linear Bottlenecks</title><link href="http://localhost:4000/deep%20learning/MobileNet_V2/" rel="alternate" type="text/html" title="[논문 리뷰] MobileNetV2: Inverted Residuals and Linear Bottlenecks" /><published>2020-12-23T00:00:00+09:00</published><updated>2020-12-23T00:10:50+09:00</updated><id>http://localhost:4000/deep%20learning/MobileNet_V2</id><content type="html" xml:base="http://localhost:4000/deep%20learning/MobileNet_V2/">&lt;h1 id=&quot;mobilenets-v2-2018&quot;&gt;&lt;a href=&quot;https://arxiv.org/pdf/1801.04381.pdf&quot;&gt;MobileNets V2, 2018&lt;/a&gt;&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;2017년에 이어 구글 개발진은, MobileNets v2 을 발표하면서 경량화 관점에서 더 최적화된 구조를 제안하였다. MobileNets v1에서 핵심인 Depthwise seperable convolution은 여전히 사용하는 대신, 구조적인 면에서 새로운 개념을 제시하였다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Linear bottlencks&lt;/li&gt;
+  &lt;li&gt;Inverted residuals&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;본 논문은 Inception 모듈을 다른 관점에서 해석함으로써, 이후 Convolution layer 경량화에 많이 사용되는  &lt;strong&gt;Depthwise seperable convolution&lt;/strong&gt; (Depthwise convolution + pointwise convolution)과의 연관성을 설명하고, 동일한 파라미터 크기를 모델로써 Inception V3보다 더 나은 성능을 도출하였다.&lt;/p&gt;
+&lt;p&gt;우선 Linear bottlenecks 구조는 Covolution layer 구조 설계시 당연시하게 사용되는 ReLU 연산에 대한 고찰에서 출발하였다.  논무에서는 &lt;strong&gt;manifold of interest&lt;/strong&gt; 개념을 기반으로 설명하는데, 이는 우리가 다루는 layer activations 의 subset이라고 생각하면 된다.&lt;/p&gt;
 
-&lt;p&gt;아래 그림에서 보면, Inception module의 간단 버젼 [Fig. 1-(a)] 에서 3x3 convolution으로 통일시키고 및 Avg. Pool을 제거한 뒤 [Fig. 1-(b)], 1x1 convolution을 개념적으로 하나로 통일해서 생각하면 [Fig. 1-(c)], 이후에 적용되는 3x3 convolution는 output channel간의 겹치지 않고, 독립적으로 동작한다고 볼 수 있다. 만약 극단적으로 모든 채널에 대해 spatial correlation을 분리해서 본다면 [Fig. 1-(d)], 이는 결국 &lt;strong&gt;Depthwise separable convolution&lt;/strong&gt; 와 거의 같은 형태를 띄게 된다.
-&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;
-&lt;img src=&quot;../assets/images/2020-12-20-Xception/inception.jpg&quot; alt=&quot;Fig. 1. Inception 모듈의 변경 및 해석&quot; /&gt;
-&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;
-결국, 극단적으로 Inception 모듈을 구현 하였다고 볼 수 있어서 (extreme inception), 제안하는 모델 구조를 &lt;strong&gt;Xception&lt;/strong&gt; 이라고 부르게 된다.&lt;/p&gt;
+&lt;p&gt;딥러닝 모델을 통해 이러한 Manifold of interest의 경우는 효과적으로 low-dimensional subspace로 임베딩이 가능하고, 이를 통해 높은 성능을 발휘 할 수 있는데, 이러한 부분에 있어 ReLu 연산을 사용할 경우 두가지 관점에서 고민을 해야 한다.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;ReLU 변환 후 manifold of interest가 여전히 non-zero volumn에 있다면, ReLU연산은 linear transform과 일치한다.&lt;/li&gt;
+  &lt;li&gt;입력 manifold가 입력 공간의 low-dimensional subspace에 놓여야지만, ReLU연산은 온전히 정보를 보전할 수 있다.&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;p&gt;Depthwise seperable convolution과는 두가지 관점에서 약간 차이가 있는데, 다음과 같다.&lt;/p&gt;
+&lt;p&gt;참으로 헷갈리는 말이다… 아래 그림을 살펴보면, input manifolds을 충분히 담지 못하는 space에서 ReLU 연산을 적용하면, 정보 손실이 발생하지만, 충분히 큰 space로 relu 함수를 적용하면, 그 손실의 양이 적다는 것을 알 수 있다.&lt;/p&gt;
+
+&lt;figure&gt;
+  
+&lt;img src=&quot;/assets/images/2020-12-23-MobileNet_V2/mobilenet_v2_manifold.jpg&quot; alt=&quot;Foo&quot; /&gt;
+
+  &lt;figcaption&gt;Fig. 1. 저차원 manifold을 고차원으로 임베딩시 ReLU 사용 예제&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;따라서  저차원에서 ReLU을 적용하게 되면 nonlinearity로 인해 많은 정보를 잃게 되기 때문에 (실험적으로 확인), &lt;strong&gt;Linear bottleneck&lt;/strong&gt; layer을 구성해야 된다는 것이다.&lt;/p&gt;
+
+&lt;p&gt;그렇다면, ReLU는 이대로 없애버리는 것일까? 아니다. ReLU의 경우 사실상 모델에 nonlinearity을 추가해, 우리가 원하는 결과에 대해 모델이 좀더 잘 묘사할 수 있는 역할을 하는데, 이를 없애자는 것은 꺼려지기도 할 뿐 아니라 ReLU을 사용하는 그간의 모든 연구를 부정하는 것이 될 수 도 있다 (너무 극단적으로 생각하긴 했다…)&lt;/p&gt;
+
+&lt;p&gt;어쨌든, 논문에서는 이러한 모델의 nonlinearity을 유지하기 위해 Inverted residual이라는 개념을 가지고 왔는데, 아래 그림과 같다.&lt;/p&gt;
+
+&lt;figure&gt;
+  
+&lt;img src=&quot;/assets/images/2020-12-23-MobileNet_V2/inverted_residual_block.jpg&quot; alt=&quot;Foo&quot; /&gt;
+
+  &lt;figcaption&gt;Fig. 2. Inverted residual block&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;1x1 convolution 이후, expansion factor을 도입해 채널을 확장한 뒤, depthwise seperable convolution을 수행하고, 다시 차원을 줄여준다. 차원이 확장되었을 때는 ReLU activation을 적용하였고, 마지막에 차원이 줄어들었을 때는 activation을 적용하지 않았다. 궁극적으로는 이러한 구조를 통해 연산량은 기존대비 작게 유지하지만, 실제 성능은 오히려 더 향상되는 결과를 가져왔다.&lt;/p&gt;
+
+&lt;p&gt;한가지 더 살펴 볼것은 ReLU대신 ReLU(6)을 사용한 것인데, 이는 모바일 디바이스에 적합하도록 Fixed-point precision으로 모델 파라미터를 변경할 때, 보다 Robust한 결과를 얻는데 도움이 된다. 즉, high-precision 연산 모델 대비 low-precision 연산 모델의 성능 열화를 줄일 수 있다.&lt;/p&gt;
+
+&lt;p&gt;ImageNet Classification,  Object Detection,  Semantic Segmentation 등 이미지 처리관련해서 다양한 task에 대해 성능 평가를 했는데, 기존 MobileNet v1 대비 향상된 성능을 보여줬을 뿐만 아니라, ShuffleNet, NasNet 등과 비교해서도 우위를 보여줬다.&lt;/p&gt;
+
+&lt;p&gt;특히, Object Detection에서 SSDLite (Single Shot Multibox Detector Lite)와 조합해서 YOLOv2 대비 1/10 수준의 파라미터와 1/20 수준의 연산량을 사용하고도 오히려 높은 성능을 도출하였다는 점에서 인상깊었다.&lt;/p&gt;</content><author><name>PAPERN</name></author><category term="Deep Learning" /><category term="CNN" /><category term="Vision" /><summary type="html">MobileNetV2: Inverted Residuals and Linear Bottlenecks</summary></entry><entry><title type="html">[논문 리뷰] MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications</title><link href="http://localhost:4000/deep%20learning/MobileNet/" rel="alternate" type="text/html" title="[논문 리뷰] MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications" /><published>2020-12-23T00:00:00+09:00</published><updated>2020-12-23T00:10:40+09:00</updated><id>http://localhost:4000/deep%20learning/MobileNet</id><content type="html" xml:base="http://localhost:4000/deep%20learning/MobileNet/">&lt;h1 id=&quot;mobilenets-2017&quot;&gt;&lt;a href=&quot;https://arxiv.org/pdf/1704.04861.pdf&quot;&gt;MobileNets, 2017&lt;/a&gt;&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;2020년 12월 기준 인용수가 무려 6,000이 넘을 정도로 많은 연구자들이 인용한 논문으로써, 향후 많은 논문들에서 채택한 Depthwise seperable layer을 이용해 경량화를 효율적으로 보여준 연구이다.&lt;/p&gt;
+
+&lt;p&gt;앞서 언급했듯이, MobileNets 에서 경량화의 핵심은 바로 Depthwise seperable convolution으로 아래 그림에서와 같이 Batch Normalization과 ReLU을 같이 조합해 구성되었다.&lt;/p&gt;
+
+&lt;figure&gt;
+  
+&lt;img src=&quot;/assets/images/2020-12-23-MobileNet/blockdiagram_dsc.jpg&quot; alt=&quot;Foo&quot; /&gt;
+
+  &lt;figcaption&gt;Fig. 1. 일반적인 convolution과 depthwise seperable convolution blockdiagram&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;일반적인 convolution layer와 연산량 비교를 해보면, 아래 그림에서 알 수 있듯이, 약 kernel 크기의 제곱만큼 연산량의 감소를 이룰 수 있다. 일반적으로 3x3 kernel을 많이 사용하기에, 약 9배정도의 연산량이 감소된다.&lt;/p&gt;
+
+&lt;figure&gt;
+  
+&lt;img src=&quot;/assets/images/2020-12-23-MobileNet/flops_mobilenets.jpg&quot; alt=&quot;Foo&quot; /&gt;
+
+  &lt;figcaption&gt;Fig. 2. 연산량 비교&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;한가지 흥미로운 점은, 논문에서는 단순히 Multi-Adds (FLOPS)로 연산량의 이론적 감소 뿐만 아니라 실제 구현 관련해서도 고민을 했다. 실제 구현에서 연산 속도 향상을 위해서는 general matrix multiply (GEMM) 함수 활용을 해야하는데, 1x1 pointwise convolution은 memory상 재정렬 같은 상황을 고려하지 않고, 바로 GEMM을 이용해 구현이 가능하다는 것이다. 이는 1x1 pointwise convolution이 전체 연산량의 약 95%, 전체 파라미터의 약 75을 차지하며 주된 연산이 되기에, MobileNets의 실제 구현에서 최적화가 매우 잘 이뤄질 수 있음을 간접적으로 보여준다.&lt;/p&gt;
+
+&lt;p&gt;이 연구에서는 기존 모델과 비교해 어느정도까지 작은 모델을 만들 수 있고, 실질적으로 그에 따른 정확도와의 정량적 분석을 위해, 두가지 scale factor 개념을 소개했다&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;width multiplier&lt;/strong&gt;: convolution layer의 node 갯수 비율 (0~1)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;resolution multiplier&lt;/strong&gt;: 입력 이미지의 축소 비율 (0~1)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;위의 scale factor의 변경를 통해 실제 모델의 파라미터/연산량이 어떻게 바뀌고, 그에 따른 정확도는 어떻게 변화되는지를 확인 할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;ImageNet 데이터에 대해서 같은 구조에 일반적인 convolution와 Depthwise seperable convolution을 적용한 경우 파라미터와 연산량은 약 8~9배 감소한 것 대비 정확도는 1%정도 밖에 열화 되지 않았다.&lt;/p&gt;
+
+&lt;figure&gt;
+  
+&lt;img src=&quot;/assets/images/2020-12-23-MobileNet/accuracy_mobilenets.jpg&quot; alt=&quot;Foo&quot; /&gt;
+
+  &lt;figcaption&gt;Fig. 3. 연산량 비교&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;또한 Fine Grained Recognition, Large Scale Geolocalizaton, Face Attributes, Object Detection,  Face Embeddings 같은 다양한 task에 대해 MobileNets을 적용한 결과 기존의 baseline 모델 대비 동등한 성능을 보여주었다.&lt;/p&gt;</content><author><name>PAPERN</name></author><category term="Deep Learning" /><category term="CNN" /><category term="Vision" /><summary type="html">MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications</summary></entry><entry><title type="html">[논문 리뷰] Xception: Deep Learning with Depthwise Separable Convolutions</title><link href="http://localhost:4000/deep%20learning/Xception/" rel="alternate" type="text/html" title="[논문 리뷰] Xception: Deep Learning with Depthwise Separable Convolutions" /><published>2020-12-20T00:00:00+09:00</published><updated>2020-12-21T00:21:00+09:00</updated><id>http://localhost:4000/deep%20learning/Xception</id><content type="html" xml:base="http://localhost:4000/deep%20learning/Xception/">&lt;h1 id=&quot;xception-2016&quot;&gt;&lt;a href=&quot;https://arxiv.org/pdf/1610.02357.pdf&quot;&gt;&lt;strong&gt;Xception 2016&lt;/strong&gt;&lt;/a&gt;&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;본 논문은 Inception 모듈을 다른 관점에서 해석함으로써, 이후 Convolution layer 경량화에 많이 사용되는  &lt;strong&gt;Depthwise seperable convolution&lt;/strong&gt; (Depthwise convolution + pointwise convolution)과의 연관성을 설명하고, Inception V3과 동일한 파라미터 크기를 가지는 모델을 이용해 더 나은 성능을 도출하였다.&lt;/p&gt;
+
+&lt;h2 id=&quot;method-and-analysis&quot;&gt;Method and analysis&lt;/h2&gt;
+&lt;p&gt;아래그림에 Inception 모듈의 기본 버젼 [Fig. 1-(a)]에서 $3 \times 3$ convolution으로 통일시키고, Avg. Pool을 제거한 뒤 [Fig. 1-(b)], $1 \times 1$ convolution을 개념적으로 하나로 통일하면 [Fig. 1-(c)], $3 \times 3$ convolution는 출력 채널간의 겹치지 않고 독립적으로 동작한다. 만약 극단적으로 모든 채널에 대해 spatial correlation을 분리해서 본다면 [Fig. 1-(d)], 이는 결국 &lt;strong&gt;Depthwise separable convolution&lt;/strong&gt; 와 거의 같은 형태를 띄게 된다.&lt;/p&gt;
+
+&lt;figure&gt;
+  
+&lt;img src=&quot;/assets/images/2020-12-20-Xception/inception.jpg&quot; alt=&quot;Foo&quot; /&gt;
+
+  &lt;figcaption&gt;Fig. 1. Inception 모듈의 변경 및 해석&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;이는 극단적으로 Inception 모듈을 구현 하였다고 볼 수 있어서 (extreme inception), 저자들은 위 모델을 &lt;strong&gt;Xception&lt;/strong&gt; 이라 부르게 된다.&lt;/p&gt;
+
+&lt;p&gt;Depthwise seperable convolution과는 두가지 관점에서 약간 차이가 있는데 다음과 같다.&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;연산 순서&lt;/li&gt;
   &lt;li&gt;비선형 연산 존재 유무&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;논문에서는 연산순서의 경우 크게 고민을 하지 않았는데, 그 이유는 우리가 모델을 구성할때, 여러 모듈을 겹겹히 쌓게 되고 자연히 1x1-&amp;gt;3x3-&amp;gt;1x1-&amp;gt;3x3…의 순서가 나타나게 되서 큰 차이가 없다고 판단했다.&lt;/p&gt;
+&lt;p&gt;논문에서는 연산순서의 경우 크게 고민을 하지 않았는데, 그 이유는 우리가 모델을 구성할때, 여러 모듈을 겹겹히 쌓게 되고 자연히 $1 \times 1$→$3 \times 3$→$1 \times 1$→$3 \times 3$…의 순서가 나타나게 되서 큰 차이가 없다고 판단했다.&lt;/p&gt;
 
-&lt;p&gt;하지만, 비선형 연산의 유무의 경우 두모듈에서  큰 차이점을 보여주게 되는데, 비선형을 제거할 수록, 다시 말해 ReLU연산을 제거 하면, 더 좋은 성능을 얻을 수 있게 되었다. 이는 Szegedy 가 주장과 상반된 결과 인데, 본 논문에서는 그 차이가 feature space의 깊이 (feature space의 채널 크기)에  인한 것으로 생각된다고 말한다 (Depthwise seperable convolution은 깊이가 1)
-&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;
-&lt;img src=&quot;../assets/images/2020-12-20-Xception/nonlinearity.jpg&quot; alt=&quot;Fig. 2. 비선형 activation에 따른 성능&quot; /&gt;
-&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;&lt;/p&gt;
+&lt;p&gt;하지만, 비선형 연산 유무 여부를 두고 두 모델을 비교해보면 큰 차이점이 있는데, 비선형을 제거할수록(즉, ReLU연산을 제거 할수록) 더 좋은 성능을 얻게 된다. 이는 Szegedy 가 주장과 상반된 결과 인데, 본 논문에서는 그 차이가 feature space의 깊이 (feature space의 채널 크기)에 의한 것으로 생각된다고 말한다 (Depthwise seperable convolution은 깊이가 1)&lt;/p&gt;
 
-&lt;p&gt;기본적으로 Depthwise seperable layer을 겹겹히 쌓고, 더불어 residual connection을 추가하였으며, Entry flow/Middle flow/Exit flow 세가지 모듈을 이용해 아키텍쳐를 구성하였다. 성능은 당연히 비교 대상인 Inception V3 보다 잘 나왔는데, ImageNet 데이터 [Fig. 3] 결과와 더불어 JFT 데이터 결과에서 모두 나은 정확도를 보여줬다.
-&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;
-&lt;img src=&quot;../assets/images/2020-12-20-Xception/results.jpg&quot; alt=&quot;Fig. 3. ImageNet 데이터에서 모델별 성능&quot; /&gt;
-&amp;lt;/br&amp;gt;&amp;lt;/br&amp;gt;&lt;/p&gt;</content><author><name>PAPERN</name></author><category term="Deep Learning" /><category term="CNN, Vision" /><summary type="html">Xception: Deep Learning with Depthwise Separable Convolutions</summary></entry></feed>
+&lt;figure&gt;
+  
+&lt;img src=&quot;/assets/images/2020-12-20-Xception/nonlinearity.jpg&quot; alt=&quot;Foo&quot; /&gt;
+
+  &lt;figcaption&gt;Fig. 2. 비선형 activation에 따른 성능&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;모델은 Depthwise seperable layer을 겹겹히 쌓고, residual connection을 추가하였으며, Entry flow/Middle flow/Exit flow 세가지 모듈을 이용해 아키텍쳐를 구성하였다. 성능은 당연히 비교 대상인 Inception V3 보다 잘 나왔는데, ImageNet 데이터 [Fig. 3] 뿐만 아니라 JFT 데이터에서도 나은 정확도를 보여줬다.&lt;/p&gt;
+
+&lt;figure&gt;
+  
+&lt;img src=&quot;/assets/images/2020-12-20-Xception/results.jpg&quot; alt=&quot;Foo&quot; /&gt;
+
+  &lt;figcaption&gt;Fig. 3. ImageNet 데이터에서 모델별 성능&lt;/figcaption&gt;
+&lt;/figure&gt;</content><author><name>PAPERN</name></author><category term="Deep Learning" /><category term="CNN" /><category term="Vision" /><summary type="html">Xception: Deep Learning with Depthwise Separable Convolutions</summary></entry></feed>
