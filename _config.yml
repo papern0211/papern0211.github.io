@@ -24,8 +24,8 @@ description              : "Engineer"
 url                      : "https://papern0211.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
-teaser                   : #
-logo                     : /assets/images/head_image.jpg"
+teaser                   : "/assets/images/head_image.jpg"
+logo                     : #
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
