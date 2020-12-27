@@ -54,7 +54,7 @@ $$P_{ji} = sigmoid(v^{T} tanh(W_{prev}*h_{j} + W_curr * h_{i}))$$
 조금 더 일반화 하게 되면, 여기에 학습 learning rate도 hyper-parameter로 추가 가능하며, 또한 pooling, batchnorm 등과 같은 구조도 추가 가능하다.
 
 ## GENERATE RECURRENT CELL ARCHITECTURES
-이제 같은 방식으로 최적화된 RNN cell을 제안할 수도 있다. RNN과 LSTM cell 연산은 tree 구조로 표현할 수 있는데, 각 트리의 노드는 두개의 입력 ($x_t$, $h_{t-1})와 출력 (h_t)로 표현 가능하다. 이를 combination 연산(addtion, elementwise multiplication 등)을 엮어 주면 여러 노드를 연결한 트리를 구성할 수 있다. 또한 LSTM과 같이 memory state ($c_t$)도 추가하고, 이를 앞서 계산한 hyperparameter와 연결을 하도록 하여 구성할 수 있다. 
+이제 같은 방식으로 최적화된 RNN cell을 제안할 수도 있다. RNN과 LSTM cell 연산은 tree 구조로 표현할 수 있는데, 각 트리의 노드는 두개의 입력 ($x_t$, $h_{t-1}$)와 출력($h_t$)로 표현 가능하다. 이를 combination 연산(addtion, elementwise multiplication 등)을 엮어 주면 여러 노드를 연결한 트리를 구성할 수 있다. 또한 LSTM과 같이 memory state ($c_t$)도 추가하고, 이를 앞서 계산한 hyperparameter와 연결을 하도록 하여 구성할 수 있다. 
 
 ![RNN controller가 sample RNN 생성하는 방법](/assets/images/2020-12-27-NAS_with_RL/NAS_RL_RNN_example.jpg)
 
