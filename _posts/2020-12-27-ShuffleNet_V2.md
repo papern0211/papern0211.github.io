@@ -24,9 +24,13 @@ ShuffleNet V2에서는 경량화 관련해서 보다 현실적인 면에 집중�
 
 ## __1. MAC 을 최소화 하기 위해 채널 크기 일치__
 저자들은 수학적으로 MAC을 정의하는데, 이는 다음과 같다
+
 $$ MAC = hw(c_1 + c_2) + c_{1}c_{2}$$
+
 여기서 $h$와 $w$의 feature map의 spatial size이고, $c_1$과 $c_2$는 각각 입력, 출력 채널 크기이다. 평균값 정리를 정의하면, 위식은 다음과 같이 표현 가능한데,
-$$ MAC \geq 2 \sqrt{hwB} + \frac{B}{hw} $$
+
+$$ MAC \geq 2 \sqrt{hwB} + \frac{B}{hw}$$
+
 여기서 $B = hwc_1 c_2$ 로 $1 \times 1$ convolution의 FLOPs이다.
 
 결국, 이론적으로 생각해보면, $c_1$ 과 $c_2$가 같을 때, MAC는 최소가 되고, 실질적인 속도 향상을 가지고 올 수 있다. 저자들은 GPU  (GTX1080ti) 와 ARM (Qualcomm Snapdragon 810) 에서 입출력 채널 크기의 비율을 변경해가면서 속도 측정을 하였고, 성능은 이론적으로 예상한 바와 두 채널의 크기가 같을 때 가장 성능이 우수했다.
@@ -34,7 +38,9 @@ $$ MAC \geq 2 \sqrt{hwB} + \frac{B}{hw} $$
 
 ## __2. Group convolution 으로 인한 MAC 증가가 발생__
 ResNext, shufflenet 에서 주요 성능 향상의 key였다 group convolution의 경우 기존의 dense convolution 보다 FLOPs을 줄이며, 오히려 많은 채널 사용을 가능하게 하여 모델의 성능을 높였었다. 하지만 MAC 관점에서 이는 오히려 역효과를 가지고 온다.
-$$ MAC = hw(c_1 + c_2) + \frac{c_1 c_2}{g} = hwc_1 + \frac{Bg}{c_1} + \frac{B}{hw} $$
+
+$$ MAC = hw(c_1 + c_2) + \frac{c_1 c_2}{g} = hwc_1 + \frac{Bg}{c_1} + \frac{B}{hw}$$
+
 여기서 $g$ 는 group 갯수를 의미하고, $B=hwc_1 c_2 /g$ 로 FLOPs을 의미한다. 동일한 FLOPs ($B$) 을 유지한다고 생각해 보면, $g$의 값이 증가하면 할 수록, MAC는 증가하게 된다. 결국 Group convolution의 경우 traget platform과 task에 따라 신중하게 선택되어야 한다.
 ![Results of guideline 2](/assets/images/2020-12-27-ShuffleNet_V2/shufflenet_v2_guideline2.jpg)
 
