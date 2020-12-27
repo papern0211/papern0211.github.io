@@ -23,7 +23,6 @@ ShuffleNet V2에서는 경량화 관련해서 보다 현실적인 면에 집중�
 저자들은 이러한 부분에 집중하여, 효율적인 네트워크 디자인을 위한 4가지 가이드라인을 제시하고, 이를 기반으로 기존 Shufflenet을 개선한 Shufflenet v2을 소개한다.
 
 ## __1. MAC 을 최소화 하기 위해 채널 크기 일치__
----
 저자들은 수학적으로 MAC을 정의하는데, 이는 다음과 같다
 $$ MAC = hw(c_1 + c_2) + c_{1}c_{2}$$
 여기서 $h$와 $w$의 feature map의 spatial size이고, $c_1$과 $c_2$는 각각 입력, 출력 채널 크기이다. 평균값 정리를 정의하면, 위식은 다음과 같이 표현 가능한데,
@@ -34,21 +33,18 @@ $$ MAC \geq 2 \sqrt{hwB} + \frac{B}{hw} $$
 ![Results of guideline 1](/assets/images/2020-12-27-ShuffleNet_V2/shufflenet_v2_guideline1.jpg)
 
 ## __2. Group convolution 으로 인한 MAC 증가가 발생__
----
 ResNext, shufflenet 에서 주요 성능 향상의 key였다 group convolution의 경우 기존의 dense convolution 보다 FLOPs을 줄이며, 오히려 많은 채널 사용을 가능하게 하여 모델의 성능을 높였었다. 하지만 MAC 관점에서 이는 오히려 역효과를 가지고 온다.
 $$ MAC = hw(c_1 + c_2) + \frac{c_1 c_2}{g} = hwc_1 + \frac{Bg}{c_1} + \frac{B}{hw} $$
 여기서 $g$ 는 group 갯수를 의미하고, $B=hwc_1 c_2 /g$ 로 FLOPs을 의미한다. 동일한 FLOPs ($B$) 을 유지한다고 생각해 보면, $g$의 값이 증가하면 할 수록, MAC는 증가하게 된다. 결국 Group convolution의 경우 traget platform과 task에 따라 신중하게 선택되어야 한다.
 ![Results of guideline 2](/assets/images/2020-12-27-ShuffleNet_V2/shufflenet_v2_guideline2.jpg)
 
 ## 3. __Network fragmentation은 병렬화를 방해__
----
 GoogleNet 시리즈와 NAS 를 통해 만들어진 네트워크에서는 "multi-path" 구조를 많이 채택하였다. 큰 하나의 operation이 아닌 여러개의 작은 opeartions을 활용하게 되면, 정확도 관점에서 많은 이득을 보여줬다. 하지만 GPU와 같은 강력한 병렬화를 지원하는 상황에서 이러한 "파편화된" 연산은 오히려 효율성을 떨어뜨린다. 실제 kernel 실행과 동기화에 많은 overhead가 발생하기 때문이다.
 
 저자들은 이러한 부분을 실험적으로 검증하기 위해, 1~4 단계로 $1 \times 1$ convolution을 파편화해 보았다. 아래 그림에서 확인할 수 있듯이 파편화된 구조에서 GPU의 경우 성능 열화가 심하게 발생하는 것을 확인 할 수 있다. 반면에 CPU 연산만 주로 사용하는 ARM 에서는 상대적으로 이러한 열화가 심하지 않았다.
 ![Results of guideline 3](/assets/images/2020-12-27-ShuffleNet_V2/shufflenet_v2_guideline3.jpg)
 
 ## 4. __Element-wise 연산은 무시할 수 있는 수준이 아님__
----
 실제 ReLU, Add Tensor, Add Bias와 같은 element-wise operation은 작은 FLOPs을 가지지만, 실제 구현에서는 높은 MAC을 가진다. MobileNet과 ShuffleNet에서 약 5~20% 정도의 runtime 시간을 차지할 정도로 큰데, 특히 GPU연산에서 많은 부분을 차지한다.
 실제 ResNet BottleNet 구조에서 이 부분을 실험해 본 결과 ReLU 연산과 shortcut을 제거한 것 만으로 아래표에 나타났듯이 약 20% 의 속도 향상을 이뤄냈다.
 ![Results of guideline 4](/assets/images/2020-12-27-ShuffleNet_V2/shufflenet_v2_guideline4.jpg)
