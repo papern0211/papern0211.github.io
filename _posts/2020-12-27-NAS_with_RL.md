@@ -1,6 +1,6 @@
 ---
-title:  "[논문 리뷰] NEURAL ARCHITECTURE SEARCH WITH REINFORCEMENT LEARNING"
-excerpt: "NEURAL ARCHITECTURE SEARCH WITH REINFORCEMENT LEARNING"
+title:  "[논문 리뷰] Neural Architecture Search with Reinforcement Learning"
+excerpt: "Neural Architecture Search with Reinforcement Learning"
 
 categories:
   - Deep Learning
