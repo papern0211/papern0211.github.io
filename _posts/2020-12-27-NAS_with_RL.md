@@ -22,19 +22,29 @@ Neural network 모델의 description을 표현하는 RNN을 강화학습을 이�
 ![RNN controller가 sample CNN 생성하는 방법](/assets/images/2020-12-27-NAS_with_RL/NAS_RL_CNN_example.jpg)
 
 우리의 목적은 이렇게 해서 생성되는 샘플 CNN의 validataion accuract $R$을 최소화 하는 string을 추출할 수 있도록 RNN의 paramete $\theta_{c}$을 업데이트 하는 것이다. 이를 위해 강화학습을 이용하는데, 우리는 expected Reward $J(\theta_{c})$을 다음과 같이 정의한다:
-$$ J(\theta_{c})=E_{P(a_{1:T};\theta_{c})}[R]$$
+$$ 
+J(\theta_{c})=E_{P(a_{1:T};\theta_{c})}[R]
+$$
 여기서 $R$은 미분이 불가능한 값이기에, policy gradient 방법을 적용한다. 
-$$ \bigtriangledown_{\theta_{c}}J(\theta_{c})=\sum_{t=1}^{T}E_{P(a_{1:T};\theta_{c})}[\bigtriangledown_{\theta_{c}}\log P(a_{t}|a_{(t-1;1)};\theta_{c})R] $$
+$$ 
+\bigtriangledown_{\theta_{c}}J(\theta_{c})=\sum_{t=1}^{T}E_{P(a_{1:T};\theta_{c})}[\bigtriangledown_{\theta_{c}}\log P(a_{t}|a_{(t-1;1)};\theta_{c})R] 
+$$
 실제 계산을 위해 approximation 하면,
-$$ \bigtriangledown_{\theta_{c}}J(\theta_{c})\simeq\frac{1}{m}\sum_{k=1}^{m}\sum_{t=1}^{T}\bigtriangledown_{\theta_{c}}\log P(a_{t}|a_{(t-1;1)};\theta_{c})R_{k} $$
+$$ 
+\bigtriangledown_{\theta_{c}}J(\theta_{c})\simeq\frac{1}{m}\sum_{k=1}^{m}\sum_{t=1}^{T}\bigtriangledown_{\theta_{c}}\log P(a_{t}|a_{(t-1;1)};\theta_{c})R_{k} 
+$$
 여기서 $m$은 sample의  architecture 갯수이고, $T$는 hyper-parameter 갯수이다.
 
 위의 수식은 unbiased estimate 이지만, 여전히 높은 variance 값을 가진다. 이를 해결하기 위해, 간단히 baseline function을 도입하는데, 다음과 같이 식을 변형 할 수 있다.
-$$ \bigtriangledown_{\theta_{c}}J(\theta_{c})\simeq\frac{1}{m}\sum_{k=1}^{m}\sum_{t=1}^{T}\bigtriangledown_{\theta_{c}}\log P(a_{t}|a_{(t-1;1)};\theta_{c})(R_{k} - b) $$
+$$ 
+\bigtriangledown_{\theta_{c}}J(\theta_{c})\simeq\frac{1}{m}\sum_{k=1}^{m}\sum_{t=1}^{T}\bigtriangledown_{\theta_{c}}\log P(a_{t}|a_{(t-1;1)};\theta_{c})(R_{k} - b) 
+$$
 $b$는 이전 arcituecture의 정확도들의 exponential moving average로 구한다.
 
 최신 CNN에 대해 구조에 대해 적용을 하기 위해서는 한가지 더 고민해야 할 부분이 있다. 바로 ResNet에서 도입된 Skip connection 이다. 이를 위해 attention mechanism을 도입하였는데, $N$ layer 기준으로 $N-1$ 번까지의 layer에 대해 각각 selection 확률을 다음과 같이 계산한다
-$$ P_{ji} = sigmoid(v^{T} tanh(W_{prev}*h_{j} + W_curr * h_{i}))$$
+$$ 
+P_{ji} = sigmoid(v^{T} tanh(W_{prev}*h_{j} + W_curr * h_{i}))
+$$
 여기서 $P_{ji}$는 layer j가 layer i의 입력일 확률이다.
 
 결과적으로 이러한 확률을 추가하여, 마찬가지로 RL을 적용하여 학습할 수 있다. 하지만 이렇게 할 경우 Search Space가 넓어지는 것과 동시에, layer간 연결을 하는데 있어 문제가 발생하다. 즉, 입출력 연결관계가 없는 layer도 출현가능하고, skip connection으로 입력이 연결될 때 사이즈가 맞지 않는 경우도 존재한다. 이를 해결하기 위해 논문에서는 다음과 같은 세가지 장치를 추가했다.
