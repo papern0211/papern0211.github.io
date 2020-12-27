@@ -11,8 +11,8 @@ classes: wide
 last_modified_at: 2020-12-23T00:10:40+09:00
 ---
 
-# [MobileNets, 2017](https://arxiv.org/pdf/1704.04861.pdf)
----
+__[arxiv link](https://arxiv.org/pdf/1704.04861.pdf)__
+
 2020년 12월 기준 인용수가 무려 6,000이 넘을 정도로 많은 연구자들이 인용한 논문으로써, 향후 많은 논문들에서 채택한 Depthwise seperable layer을 이용해 경량화를 효율적으로 보여준 연구이다.
 
 앞서 언급했듯이, MobileNets 에서 경량화의 핵심은 바로 Depthwise seperable convolution으로 아래 그림에서와 같이 Batch Normalization과 ReLU을 같이 조합해 구성되었다.

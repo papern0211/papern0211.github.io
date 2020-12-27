@@ -11,8 +11,8 @@ classes: wide
 last_modified_at: 2020-12-23T00:10:50+09:00
 ---
 
-# [MobileNets V2, 2018](https://arxiv.org/pdf/1801.04381.pdf)
----
+__[arxiv link](https://arxiv.org/pdf/1801.04381.pdf)__
+
 2017년에 이어 구글 개발진은, MobileNets v2 을 발표하면서 경량화 관점에서 더 최적화된 구조를 제안하였다. MobileNets v1에서 핵심인 Depthwise seperable convolution은 여전히 사용하는 대신, 구조적인 면에서 새로운 개념을 제시하였다.
 - Linear bottlencks
 - Inverted residuals
