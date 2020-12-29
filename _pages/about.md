@@ -5,7 +5,6 @@ layout: single
 classes: wide
 header:
   overlay_color: "#5e616c"
-  overlay_image: /assets/images/boat.jpg  
 ---
 
 신호 처리 및 영상처리를 전공하였고, 최근에는 딥러닝 모델 개발을 있습니다.
