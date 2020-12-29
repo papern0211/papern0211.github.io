@@ -59,8 +59,8 @@ $$P_{ji} = sigmoid(v^{T} tanh(W_{prev}*h_{j} + W_curr * h_{i}))$$
 ![RNN controller가 sample RNN 생성하는 방법](/assets/images/2020-12-27-NAS_with_RL/NAS_RL_RNN_example.jpg)
 
 위 그림은 이러한 방법의 예제인데, 간단히 과정을 설명하면 다음과 같다.
-1. Tree node index 0: $a_{0}=tanh(W_{1}*x_{t-1} + W_{2}*h_{t-1})$
-1. Tree node index 1: $a_{1}=ReLU((W_{3}*x_{t}) \odot (W_{4}*h_{t-1}))$
+1. Tree node index 0: $a_{0}=tanh(W_1 \ast x_{t-1} + W_2 \ast h_{t-1})$
+1. Tree node index 1: $a_{1}=ReLU((W_{3} \ast x_{t}) \odot (W_{4} \ast h_{t-1}))$
 1. Cell index 0을 두번째로 출력: $a_{0}^{new}=ReLU(a_{0} + c_{t-1})$
 1. Tree node index 2: $a_{2}=sigmoid(a_{0}^{new} \odot a_{1})$
 1. Cell index 1을 첫번째로 출력: tree 1번의 activation 전의 출력을 사용, $c_t=(W_3 * x_t) \odot (W_4 * h_{t-1}$)
