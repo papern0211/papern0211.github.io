@@ -5,7 +5,6 @@ excerpt: "MobileNets: Efficient Convolutional Neural Networks for Mobile Vision 
 categories:
   - Deep Learning
 tags:
-  - CNN
   - Vision
 classes: wide
 last_modified_at: 2020-12-23T00:10:40+09:00

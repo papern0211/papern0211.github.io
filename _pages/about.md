@@ -3,9 +3,12 @@ title: "블로그 주인장"
 permalink: /about/
 layout: single
 classes: wide
+header:
+  overlay_color: "#5e616c"
+  overlay_image: /assets/images/boat.jpg  
 ---
 
-신호 처리 및 영상처리를 전공하였고, 최근에는 딥러닝 모델링 업무를 하고 있습니다.
+신호 처리 및 영상처리를 전공하였고, 최근에는 딥러닝 모델 개발을 있습니다.
 
 블로그 운영 하는 목적은 제 자신의 부족한 지식을 채우는 것과 동시에 조금이라도 공유하고자 함입니다.
 

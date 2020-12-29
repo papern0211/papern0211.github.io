@@ -5,7 +5,6 @@ excerpt: "MobileNetV2: Inverted Residuals and Linear Bottlenecks"
 categories:
   - Deep Learning
 tags:
-  - CNN
   - Vision
 classes: wide
 last_modified_at: 2020-12-23T00:10:50+09:00

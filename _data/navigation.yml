@@ -1,12 +1,12 @@
 # main links
 main:
-  - title: "Blog"
+  - title: "Home"
     url: https://papern0211.github.io/
   - title: "About"
     url: /about/
-  - title: "Category"
+  - title: "Archives"
     url: /categories/
-  - title: "Tag"
+  - title: "Tags"
     url: /tags/
   # - title: "Sample Posts"
   #   url: /year-archive/

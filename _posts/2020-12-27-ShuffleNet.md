@@ -5,7 +5,6 @@ excerpt: "ShuffleNet: An Extremely Efficient Convolutional Neural Network for Mo
 categories:
   - Deep Learning
 tags:
-  - CNN
   - Vision
 classes: wide
 last_modified_at: 2020-12-27T00:10:40+09:00

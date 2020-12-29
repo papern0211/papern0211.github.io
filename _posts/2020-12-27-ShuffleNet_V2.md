@@ -5,7 +5,6 @@ excerpt: "ShuffleNet V2: Practical Guidelines for Efficient CNN Architecture Des
 categories:
   - Deep Learning
 tags:
-  - CNN
   - Vision
 classes: wide
 last_modified_at: 2020-12-27T00:10:41+09:00
