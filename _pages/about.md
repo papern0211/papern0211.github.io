@@ -2,6 +2,7 @@
 title: "블로그 주인장"
 permalink: /about/
 layout: single
+classes: wide
 ---
 
 신호 처리 및 영상처리를 전공하였고, 최근에는 딥러닝 모델링 업무를 하고 있습니다.
