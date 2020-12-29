@@ -1,5 +1,5 @@
 ---
-title: "블로그 주인장"
+title: "About"
 permalink: /about/
 layout: single
 classes: wide
